@@ -115,352 +115,325 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       body: SafeArea(
         child: Stack(
           children: [
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 70.h,
+            Column(
+              children: [
+                SizedBox(
+                  height: 70.h,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 27.w, right: 15.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: AnimatedBuilder(
+                          animation: animationController!,
+                          builder: (c, anim) => Transform(
+                            transform: Matrix4.identity()
+                              ..setEntry(3, 2, 0.0025)
+                              ..rotateY((animationController?.value)! * pi),
+                            alignment: FractionalOffset.center,
+                            child: _card,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                if (animationController?.value == 1)
+                                  animationController?.reverse(from: 1);
+                                else
+                                  animationController?.forward(from: 0);
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
+                                child: SvgPicture.asset(
+                                  "assets/images/plus.svg",
+                                  width: 23.w,
+                                  height: 23.w,
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                showCalling = !showCalling;
+                                setState(() {});
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
+                                child: SvgPicture.asset(
+                                  "assets/images/search.svg",
+                                  width: 23.w,
+                                  height: 23.w,
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                _key.currentState!.openEndDrawer();
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+                                child: SvgPicture.asset(
+                                  "assets/images/menu.svg",
+                                  width: 22.w,
+                                  height: 19.w,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 27.w, right: 15.w),
+                ),
+                SizedBox(
+                  height: 36.h,
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 27.w),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          child: AnimatedBuilder(
-                            animation: animationController!,
-                            builder: (c, anim) => Transform(
-                              transform: Matrix4.identity()
-                                ..setEntry(3, 2, 0.0025)
-                                ..rotateY((animationController?.value)! * pi),
-                              alignment: FractionalOffset.center,
-                              child: _card,
+                        InkWell(
+                          onTap: () {
+                            isClickedAll = true;
+                            isClickedImp = false;
+                            isClickedUnread = false;
+                            isClickedRead = false;
+                            setState(() {});
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                            decoration: BoxDecoration(
+                              color: isClickedAll ? AppColors.blue : AppColors.white,
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Text(
+                              "All",
+                              style: GilroySemiBold.copyWith(
+                                color: isClickedAll ? AppColors.white : AppColors.black,
+                                fontSize: 20.sp,
+                              ),
                             ),
                           ),
                         ),
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  if (animationController?.value == 1)
-                                    animationController?.reverse(from: 1);
-                                  else
-                                    animationController?.forward(from: 0);
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
-                                  child: SvgPicture.asset(
-                                    "assets/images/plus.svg",
-                                    width: 23.w,
-                                    height: 23.w,
-                                  ),
-                                ),
+                        SizedBox(
+                          width: 12.w,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            isClickedAll = false;
+                            isClickedImp = true;
+                            isClickedUnread = false;
+                            isClickedRead = false;
+                            setState(() {});
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                            decoration: BoxDecoration(
+                              color: isClickedImp ? AppColors.blue : AppColors.white,
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Text(
+                              "Important",
+                              style: GilroySemiBold.copyWith(
+                                color: isClickedImp ? AppColors.white : AppColors.black,
+                                fontSize: 20.sp,
                               ),
-                              InkWell(
-                                onTap: () {
-                                  showCalling = !showCalling;
-                                  setState(() {});
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
-                                  child: SvgPicture.asset(
-                                    "assets/images/search.svg",
-                                    width: 23.w,
-                                    height: 23.w,
-                                  ),
-                                ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 12.w,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            isClickedAll = false;
+                            isClickedImp = false;
+                            isClickedUnread = true;
+                            isClickedRead = false;
+                            setState(() {});
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                            decoration: BoxDecoration(
+                              color: isClickedUnread ? AppColors.blue : AppColors.white,
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Text(
+                              "Unread",
+                              style: GilroySemiBold.copyWith(
+                                color: isClickedUnread ? AppColors.white : AppColors.black,
+                                fontSize: 20.sp,
                               ),
-                              InkWell(
-                                onTap: () {
-                                  _key.currentState!.openEndDrawer();
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
-                                  child: SvgPicture.asset(
-                                    "assets/images/menu.svg",
-                                    width: 22.w,
-                                    height: 19.w,
-                                  ),
-                                ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 12.w,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            isClickedAll = false;
+                            isClickedImp = false;
+                            isClickedUnread = false;
+                            isClickedRead = true;
+                            setState(() {});
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                            decoration: BoxDecoration(
+                              color: isClickedRead ? AppColors.blue : AppColors.white,
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Text(
+                              "Read",
+                              style: GilroySemiBold.copyWith(
+                                color: isClickedRead ? AppColors.white : AppColors.black,
+                                fontSize: 20.sp,
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 36.h,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 27.w),
-                      child: Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              isClickedAll = true;
-                              isClickedImp = false;
-                              isClickedUnread = false;
-                              isClickedRead = false;
-                              setState(() {});
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-                              decoration: BoxDecoration(
-                                color: isClickedAll ? AppColors.blue : AppColors.white,
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              child: Text(
-                                "All",
-                                style: GilroySemiBold.copyWith(
-                                  color: isClickedAll ? AppColors.white : AppColors.black,
-                                  fontSize: 20.sp,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 12.w,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              isClickedAll = false;
-                              isClickedImp = true;
-                              isClickedUnread = false;
-                              isClickedRead = false;
-                              setState(() {});
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-                              decoration: BoxDecoration(
-                                color: isClickedImp ? AppColors.blue : AppColors.white,
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              child: Text(
-                                "Important",
-                                style: GilroySemiBold.copyWith(
-                                  color: isClickedImp ? AppColors.white : AppColors.black,
-                                  fontSize: 20.sp,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 12.w,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              isClickedAll = false;
-                              isClickedImp = false;
-                              isClickedUnread = true;
-                              isClickedRead = false;
-                              setState(() {});
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-                              decoration: BoxDecoration(
-                                color: isClickedUnread ? AppColors.blue : AppColors.white,
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              child: Text(
-                                "Unread",
-                                style: GilroySemiBold.copyWith(
-                                  color: isClickedUnread ? AppColors.white : AppColors.black,
-                                  fontSize: 20.sp,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 12.w,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              isClickedAll = false;
-                              isClickedImp = false;
-                              isClickedUnread = false;
-                              isClickedRead = true;
-                              setState(() {});
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-                              decoration: BoxDecoration(
-                                color: isClickedRead ? AppColors.blue : AppColors.white,
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              child: Text(
-                                "Read",
-                                style: GilroySemiBold.copyWith(
-                                  color: isClickedRead ? AppColors.white : AppColors.black,
-                                  fontSize: 20.sp,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  ListView.builder(
-                    itemCount: imageList.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.only(left: 27.w),
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => ChatScreen(
-                                isOnline: index % 2 == 0 ? true : false,
-                                username: nameList[index].toString(),
-                                profilePic: imageList[index].toString(),
-                              ),
-                            ),
-                          );
-                        },
-                        child: Slidable(
-                          key: UniqueKey(),
-                          closeOnScroll: true,
-                          endActionPane: ActionPane(
-                            extentRatio: 0.7.w,
-                            motion: const BehindMotion(),
-                            dismissible: DismissiblePane(
-                              onDismissed: () {
-                                print(index);
+                ),
+                SizedBox(
+                  height: 15.h,
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 15.h,
+                        ),
+                        ListView.builder(
+                          itemCount: imageList.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.only(left: 27.w),
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => ChatScreen(
+                                      isOnline: index % 2 == 0 ? true : false,
+                                      username: nameList[index].toString(),
+                                      profilePic: imageList[index].toString(),
+                                    ),
+                                  ),
+                                );
                               },
-                            ),
-                            children: [
-                              Expanded(
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {});
-                                  },
-                                  child: Container(
-                                    color: AppColors.blue,
-                                    height: 82.w,
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        "assets/images/saved.svg",
-                                        width: 16.w,
-                                        height: 22.w,
-                                        color: AppColors.white,
-                                      ),
-                                    ),
+                              child: Slidable(
+                                key: UniqueKey(),
+                                closeOnScroll: true,
+                                endActionPane: ActionPane(
+                                  extentRatio: 0.7.w,
+                                  motion: const BehindMotion(),
+                                  dismissible: DismissiblePane(
+                                    onDismissed: () {
+                                      print(index);
+                                    },
                                   ),
-                                ),
-                              ),
-                              Expanded(
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {});
-                                  },
-                                  child: Container(
-                                    height: 82.w,
-                                    color: AppColors.blue,
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        "assets/images/read.svg",
-                                        width: 25.87.w,
-                                        height: 12.3.w,
-                                        color: AppColors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {});
-                                  },
-                                  child: Container(
-                                    color: AppColors.blue,
-                                    height: 82.w,
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        "assets/images/bin.svg",
-                                        width: 18.w,
-                                        height: 22.w,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 27.w, top: 14.h, bottom: 14.h),
-                            child: Row(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(30.r),
-                                  child: Container(
-                                    color: AppColors.grey.withOpacity(0.2),
-                                    child: Image.network(
-                                      imageList[index],
-                                      height: 82.w,
-                                      width: 82.w,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 15.w,
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        nameList[index],
-                                        style: GilroyBold.copyWith(
-                                          color: AppColors.black,
-                                          fontSize: 23.sp,
+                                  children: [
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {});
+                                        },
+                                        child: Container(
+                                          color: AppColors.blue,
+                                          height: 82.w,
+                                          child: Center(
+                                            child: SvgPicture.asset(
+                                              "assets/images/saved.svg",
+                                              width: 16.w,
+                                              height: 22.w,
+                                              color: AppColors.white,
+                                            ),
+                                          ),
                                         ),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {});
+                                        },
+                                        child: Container(
+                                          height: 82.w,
+                                          color: AppColors.blue,
+                                          child: Center(
+                                            child: SvgPicture.asset(
+                                              "assets/images/read.svg",
+                                              width: 25.87.w,
+                                              height: 12.3.w,
+                                              color: AppColors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: () {
+                                          setState(() {});
+                                        },
+                                        child: Container(
+                                          color: AppColors.blue,
+                                          height: 82.w,
+                                          child: Center(
+                                            child: SvgPicture.asset(
+                                              "assets/images/bin.svg",
+                                              width: 18.w,
+                                              height: 22.w,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 27.w, top: 14.h, bottom: 14.h),
+                                  child: Row(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(30.r),
+                                        child: Container(
+                                          color: AppColors.grey.withOpacity(0.2),
+                                          child: Image.network(
+                                            imageList[index],
+                                            height: 82.w,
+                                            width: 82.w,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
                                       ),
                                       SizedBox(
-                                        height: 5.h,
+                                        width: 15.w,
                                       ),
-                                      Text(
-                                        messageList[index],
-                                        style: GilroyMedium.copyWith(
-                                          color: index % 2 == 0
-                                              ? index == 4
-                                                  ? AppColors.grey
-                                                  : AppColors.blue
-                                              : AppColors.grey,
-                                          fontSize: 16.sp,
-                                        ),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 80.w,
-                                  child: index == 4
-                                      ? Column(
+                                      Expanded(
+                                        child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "Yesterday",
-                                              style: GilroyMedium.copyWith(
-                                                color: AppColors.grey,
-                                                fontSize: 17.sp,
+                                              nameList[index],
+                                              style: GilroyBold.copyWith(
+                                                color: AppColors.black,
+                                                fontSize: 23.sp,
                                               ),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
@@ -469,72 +442,110 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                               height: 5.h,
                                             ),
                                             Text(
-                                              "",
+                                              messageList[index],
                                               style: GilroyMedium.copyWith(
-                                                color: index % 2 == 0 ? AppColors.blue : AppColors.grey,
+                                                color: index % 2 == 0
+                                                    ? index == 4
+                                                        ? AppColors.grey
+                                                        : AppColors.blue
+                                                    : AppColors.grey,
                                                 fontSize: 16.sp,
                                               ),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ],
-                                        )
-                                      : Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              "7:20",
-                                              style: GilroyMedium.copyWith(
-                                                color: AppColors.grey,
-                                                fontSize: 17.sp,
-                                              ),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                            SizedBox(
-                                              height: 5.h,
-                                            ),
-                                            index % 2 == 0
-                                                ? Container(
-                                                    height: 26.w,
-                                                    width: 26.w,
-                                                    alignment: Alignment.center,
-                                                    // padding: EdgeInsets.only(top: 7.h, bottom: 7.h, left: 10.w, right: 10.w),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(100.r),
-                                                      color: AppColors.blue,
-                                                    ),
-                                                    child: Text(
-                                                      "2",
-                                                      style: GilroyMedium.copyWith(
-                                                        color: AppColors.white,
-                                                        fontSize: 15.sp,
-                                                      ),
-                                                      maxLines: 1,
-                                                      overflow: TextOverflow.ellipsis,
-                                                    ),
-                                                  )
-                                                : SvgPicture.asset(
-                                                    index == 1 ? "assets/images/unread.svg" : "assets/images/read.svg",
-                                                    width: 20.w,
-                                                    height: 9.w,
-                                                  ),
-                                          ],
                                         ),
+                                      ),
+                                      SizedBox(
+                                        width: 80.w,
+                                        child: index == 4
+                                            ? Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    "Yesterday",
+                                                    style: GilroyMedium.copyWith(
+                                                      color: AppColors.grey,
+                                                      fontSize: 17.sp,
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5.h,
+                                                  ),
+                                                  Text(
+                                                    "",
+                                                    style: GilroyMedium.copyWith(
+                                                      color: index % 2 == 0 ? AppColors.blue : AppColors.grey,
+                                                      fontSize: 16.sp,
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ],
+                                              )
+                                            : Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    "7:20",
+                                                    style: GilroyMedium.copyWith(
+                                                      color: AppColors.grey,
+                                                      fontSize: 17.sp,
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5.h,
+                                                  ),
+                                                  index % 2 == 0
+                                                      ? Container(
+                                                          height: 26.w,
+                                                          width: 26.w,
+                                                          alignment: Alignment.center,
+                                                          // padding: EdgeInsets.only(top: 7.h, bottom: 7.h, left: 10.w, right: 10.w),
+                                                          decoration: BoxDecoration(
+                                                            borderRadius: BorderRadius.circular(100.r),
+                                                            color: AppColors.blue,
+                                                          ),
+                                                          child: Text(
+                                                            "2",
+                                                            style: GilroyMedium.copyWith(
+                                                              color: AppColors.white,
+                                                              fontSize: 15.sp,
+                                                            ),
+                                                            maxLines: 1,
+                                                            overflow: TextOverflow.ellipsis,
+                                                          ),
+                                                        )
+                                                      : SvgPicture.asset(
+                                                          index == 1 ? "assets/images/unread.svg" : "assets/images/read.svg",
+                                                          width: 20.w,
+                                                          height: 9.w,
+                                                        ),
+                                                ],
+                                              ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
-                            ),
-                          ),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
+                        SizedBox(
+                          height: 60.h,
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(
-                    height: 60.h,
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
             if (showCalling == true)
               Column(
